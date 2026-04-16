@@ -4,13 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ASFT: Autonomous Fine-Tuning of VLMs for Turbulence-Degraded OCR</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+
+/* ── BASE ── */
 body {
-  font-family: 'Inter', sans-serif;
-  background: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: #ffffff;
   color: #1a1a1a;
   font-size: 16px;
   line-height: 1.65;
@@ -20,94 +22,98 @@ body {
 nav {
   position: sticky;
   top: 0;
-  background: rgba(255,255,255,0.96);
-  border-bottom: 1px solid #e4e4e4;
   z-index: 100;
-  backdrop-filter: blur(6px);
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
 }
 .nav-inner {
   max-width: 900px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 20px;
   display: flex;
-  gap: 4px;
+  gap: 2px;
   overflow-x: auto;
-  scrollbar-width: none;
 }
 .nav-inner::-webkit-scrollbar { display: none; }
 nav a {
   display: inline-block;
-  padding: 12px 14px;
+  padding: 11px 13px;
   font-size: 13px;
   font-weight: 500;
   color: #555;
   text-decoration: none;
   white-space: nowrap;
   border-bottom: 2px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
 }
-nav a:hover { color: #1a56b0; border-bottom-color: #1a56b0; }
+nav a:hover { color: #1756a9; border-bottom-color: #1756a9; }
 
-.page { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+/* ── PAGE WRAPPER ── */
+.page { max-width: 900px; margin: 0 auto; padding: 0 20px; }
 
-/* ── TITLE SECTION ── */
-.title-section {
+/* ── TITLE BLOCK ── */
+.title-block {
   padding: 56px 0 40px;
   text-align: center;
   border-bottom: 1px solid #e8e8e8;
 }
-.venue-badge {
+.venue-tag {
   display: inline-block;
-  background: #f0f4fa;
-  border: 1px solid #ccd6e8;
+  background: #eef2fb;
+  border: 1px solid #c0ccee;
   border-radius: 3px;
   padding: 3px 12px;
   font-size: 12px;
-  font-weight: 600;
-  color: #1a56b0;
-  letter-spacing: 0.04em;
-  margin-bottom: 20px;
+  font-weight: 700;
+  color: #1756a9;
+  letter-spacing: 0.05em;
+  margin-bottom: 22px;
 }
 .paper-title {
-  font-family: 'Source Serif 4', serif;
-  font-size: clamp(22px, 3.2vw, 34px);
-  font-weight: 600;
-  line-height: 1.22;
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 700;
+  line-height: 1.25;
   color: #111;
-  max-width: 780px;
-  margin: 0 auto 30px;
+  max-width: 760px;
+  margin: 0 auto 28px;
+  letter-spacing: -0.3px;
 }
-.authors-line {
+.authors {
   font-size: 15px;
   color: #333;
-  margin-bottom: 7px;
-  line-height: 2.2;
+  margin-bottom: 8px;
+  line-height: 2;
 }
-.authors-line a {
-  color: #1a56b0;
+.authors a {
+  color: #1756a9;
   text-decoration: none;
   font-weight: 500;
 }
-.authors-line a:hover { text-decoration: underline; }
-.authors-line sup { font-size: 10px; color: #888; }
-.affil-line {
-  font-size: 13.5px;
+.authors a:hover { text-decoration: underline; }
+.authors sup { font-size: 10px; color: #888; }
+.affil {
+  font-size: 13px;
   color: #666;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
-.equal-note { font-size: 12.5px; color: #999; font-style: italic; margin-bottom: 30px; }
+.equal {
+  font-size: 12px;
+  color: #999;
+  font-style: italic;
+  margin-bottom: 28px;
+}
 
-.link-row {
+/* ── LINK BUTTONS ── */
+.btn-row {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
 }
-.lbtn {
+.btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 18px;
+  padding: 7px 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 13px;
@@ -115,40 +121,60 @@ nav a:hover { color: #1a56b0; border-bottom-color: #1a56b0; }
   color: #222;
   text-decoration: none;
   background: #fafafa;
-  transition: background 0.15s, border-color 0.15s;
 }
-.lbtn:hover { background: #f0f0f0; border-color: #999; }
-.lbtn svg { flex-shrink: 0; }
+.btn:hover { background: #f0f0f0; border-color: #aaa; }
 
-/* ── GENERIC SECTION ── */
-.sec { padding: 52px 0 0; }
-.sec:last-of-type { padding-bottom: 80px; }
+/* ── SECTIONS ── */
+.sec { padding: 50px 0 0; }
+.sec:last-child { padding-bottom: 80px; }
 
 h2 {
-  font-family: 'Source Serif 4', serif;
-  font-size: 21px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
   color: #111;
-  padding-bottom: 9px;
-  border-bottom: 2px solid #1a56b0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #1756a9;
   display: inline-block;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
+  letter-spacing: -0.2px;
+}
+h3.sub {
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+  margin: 24px 0 10px;
 }
 
-p.body-text {
+p.prose {
   font-size: 15px;
   line-height: 1.82;
   color: #333;
   margin-bottom: 14px;
 }
-p.body-text:last-child { margin-bottom: 0; }
+p.prose:last-child { margin-bottom: 0; }
 
-/* ── FIGURE ── */
-.fig-wrap {
-  margin: 22px 0;
-  text-align: center;
+hr.div { border: none; border-top: 1px solid #e8e8e8; margin: 0; }
+
+/* ── KEYWORDS ── */
+.kw-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 16px;
 }
-.fig-wrap img {
+.kw {
+  background: #eef2fb;
+  border: 1px solid #c0ccee;
+  border-radius: 3px;
+  padding: 3px 10px;
+  font-size: 12px;
+  color: #1756a9;
+  font-weight: 500;
+}
+
+/* ── FIGURES ── */
+.fig { margin: 24px 0; }
+.fig img {
   width: 100%;
   max-width: 860px;
   border: 1px solid #ddd;
@@ -156,33 +182,28 @@ p.body-text:last-child { margin-bottom: 0; }
   display: block;
   margin: 0 auto;
 }
-.fig-caption {
-  font-size: 13.5px;
+.fig-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+.fig-2col .fig { margin: 0; }
+.cap {
+  font-size: 13px;
   color: #555;
-  margin-top: 10px;
-  line-height: 1.65;
+  line-height: 1.6;
+  margin-top: 8px;
   text-align: left;
   max-width: 860px;
   margin-left: auto;
   margin-right: auto;
 }
-.fig-caption strong { color: #333; }
+.cap b { color: #333; }
 
-/* ── TWO-COL FIGURES ── */
-.fig-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin: 22px 0;
-}
-.fig-row .fig-wrap { margin: 0; }
-
-/* ── VIDEO (single, full-width) ── */
-.video-wrap {
-  margin: 22px 0;
-  text-align: center;
-}
-.video-wrap video {
+/* ── VIDEO ── */
+.video-outer { margin: 24px 0; }
+.video-outer video {
   width: 100%;
   max-width: 860px;
   border: 1px solid #ddd;
@@ -191,46 +212,83 @@ p.body-text:last-child { margin-bottom: 0; }
   margin: 0 auto;
   background: #111;
 }
-.video-placeholder-full {
+.video-missing {
   width: 100%;
   max-width: 860px;
   margin: 0 auto;
   aspect-ratio: 16/9;
-  background: #111;
+  background: #1a1a1a;
   border: 1px solid #ddd;
   border-radius: 4px;
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
 }
-.video-placeholder-full p {
+.video-missing p {
   font-size: 13px;
-  color: #555;
+  color: #666;
   font-family: monospace;
   text-align: center;
 }
 
-/* ── KEYWORDS ── */
-.kw-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 14px;
+/* ── METHOD CARDS ── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin: 18px 0;
 }
-.kw {
-  background: #f0f4fa;
-  border: 1px solid #ccd6e8;
-  border-radius: 3px;
-  padding: 3px 11px;
-  font-size: 12.5px;
-  color: #1a56b0;
-  font-weight: 500;
+.card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 18px 20px;
+  background: #f8fbff;
+}
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.card-tag {
+  background: #1756a9;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+}
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1756a9;
+}
+.card p {
+  font-size: 13.5px;
+  line-height: 1.72;
+  color: #444;
 }
 
-/* ── TABLE ── */
-.table-wrap {
+/* ── EQUATION BOX ── */
+.eq {
+  background: #f8f9fb;
+  border: 1px solid #ddd;
+  border-left: 3px solid #1756a9;
+  border-radius: 4px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  color: #222;
+  line-height: 2;
+}
+.eq .comment { color: #999; }
+
+/* ── TABLES ── */
+.tbl-wrap {
   overflow-x: auto;
   margin: 16px 0;
   border: 1px solid #ddd;
@@ -242,107 +300,57 @@ table {
   font-size: 14px;
   background: #fff;
 }
-thead tr { background: #f0f4fa; }
+thead tr { background: #eef2fb; }
 thead th {
-  padding: 10px 14px;
+  padding: 10px 13px;
   text-align: left;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 12.5px;
   color: #333;
-  border-bottom: 2px solid #ccd6e8;
+  border-bottom: 2px solid #c0ccee;
   white-space: nowrap;
 }
 tbody tr { border-bottom: 1px solid #f0f0f0; }
 tbody tr:last-child { border-bottom: none; }
-tbody tr:hover { background: #fafcff; }
-tbody tr.ours-row { background: #f4f8ff; }
-tbody tr.ours-row td:first-child { font-weight: 600; color: #1a56b0; }
+tbody tr:hover { background: #f8fbff; }
+tbody tr.ours { background: #f0f6ff; }
+tbody tr.ours td:first-child { font-weight: 700; color: #1756a9; }
 td {
-  padding: 9px 14px;
+  padding: 9px 13px;
   color: #444;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
-td.best { font-weight: 700; color: #1a56b0; }
-td.group {
+td.b { font-weight: 700; color: #1756a9; }
+td.grp {
   font-size: 12px;
-  color: #888;
+  color: #999;
   font-style: italic;
   background: #fafafa;
-  padding: 6px 14px;
-}
-
-/* ── COMPONENT BOXES ── */
-.component-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 14px;
-  margin: 18px 0;
-}
-.comp-card {
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 18px 20px;
-  background: #fafcff;
-}
-.comp-card h3 {
-  font-size: 14px;
-  font-weight: 600;
-  color: #1a56b0;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-.comp-card h3 .tag {
-  background: #1a56b0;
-  color: #fff;
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 2px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
-.comp-card p {
-  font-size: 13.5px;
-  line-height: 1.7;
-  color: #555;
-}
-
-/* ── LOSS EQUATION BOX ── */
-.eq-box {
-  background: #f8f9fb;
-  border: 1px solid #ddd;
-  border-left: 3px solid #1a56b0;
-  border-radius: 4px;
-  padding: 16px 20px;
-  margin: 16px 0;
-  font-family: 'Courier New', monospace;
-  font-size: 14px;
-  color: #333;
-  line-height: 1.8;
+  padding: 5px 13px;
 }
 
 /* ── BIBTEX ── */
-.bibtex-wrap {
-  background: #f8f8f8;
+.bib-wrap {
+  background: #f5f5f5;
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 20px 22px;
   position: relative;
-  margin-top: 12px;
+  margin-top: 14px;
 }
-.bibtex-wrap pre {
-  font-family: 'Courier New', monospace;
+.bib-wrap pre {
+  font-family: 'Courier New', Courier, monospace;
   font-size: 13px;
-  line-height: 1.7;
+  line-height: 1.75;
   color: #333;
   white-space: pre-wrap;
   word-break: break-word;
 }
 .copy-btn {
   position: absolute;
-  top: 12px; right: 14px;
+  top: 12px;
+  right: 14px;
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 3px;
@@ -351,34 +359,32 @@ td.group {
   font-weight: 500;
   cursor: pointer;
   color: #555;
-  transition: background 0.15s;
 }
-.copy-btn:hover { background: #f0f0f0; }
+.copy-btn:hover { background: #eee; }
 
 /* ── FOOTER ── */
 footer {
-  background: #f7f7f7;
-  border-top: 1px solid #e8e8e8;
-  padding: 28px 24px;
+  background: #f5f5f5;
+  border-top: 1px solid #e0e0e0;
+  padding: 28px 20px;
   text-align: center;
   font-size: 13px;
   color: #888;
 }
-footer a { color: #1a56b0; text-decoration: none; }
+footer a { color: #1756a9; text-decoration: none; }
 
-hr.sec-div { border: none; border-top: 1px solid #e8e8e8; margin: 0; }
-
-@media (max-width: 600px) {
-  .fig-row { grid-template-columns: 1fr; }
-  .paper-title { font-size: 22px; }
-  .page { padding: 0 16px; }
-  .component-grid { grid-template-columns: 1fr; }
+/* ── RESPONSIVE ── */
+@media (max-width: 580px) {
+  .fig-2col { grid-template-columns: 1fr; }
+  .cards { grid-template-columns: 1fr; }
+  .paper-title { font-size: 21px; }
+  .page { padding: 0 14px; }
 }
 </style>
 </head>
 <body>
 
-<!-- STICKY NAV -->
+<!-- NAV -->
 <nav>
   <div class="nav-inner">
     <a href="#abstract">Abstract</a>
@@ -394,444 +400,381 @@ hr.sec-div { border: none; border-top: 1px solid #e8e8e8; margin: 0; }
 
 <div class="page">
 
-  <!-- ══════════════════════════════════════
-       TITLE
-  ══════════════════════════════════════ -->
-  <div class="title-section">
-    <div class="venue-badge">JMLR 2025</div>
-    <h1 class="paper-title">
-      Autonomous Fine-Tuning of Vision–Language Models<br>
-      for Turbulence-Degraded Text Recognition
-    </h1>
+<!-- ════════════════════════════════
+     TITLE
+════════════════════════════════ -->
+<div class="title-block">
+  <div class="venue-tag">JMLR 2025</div>
+  <h1 class="paper-title">
+    Autonomous Fine-Tuning of Vision–Language Models<br>
+    for Turbulence-Degraded Text Recognition
+  </h1>
+  <div class="authors">
+    <a href="mailto:fjayrin@std.cu.ac.bd">Fateha Jannata Ayrin</a><sup>1*</sup>
+    &nbsp;&middot;&nbsp;
+    <a href="mailto:azim@cu.ac.bd">Muhammad Anwarul Azim</a><sup>1*</sup>
+    &nbsp;&middot;&nbsp;
+    <a href="mailto:mkislam@cu.ac.bd">Mohammad Khairul Islam</a><sup>1</sup>
+  </div>
+  <div class="affil">
+    <sup>1</sup>Department of Computer Science and Engineering, University of Chittagong, Bangladesh
+  </div>
+  <div class="equal">* Equal Contribution</div>
+  <div class="btn-row">
+    <a href="https://arxiv.org/abs/YOUR_ARXIV_ID" class="btn" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Paper
+    </a>
+    <a href="https://github.com/ayrin21/asft" class="btn" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.52 2.87 8.35 6.84 9.7.5.09.68-.22.68-.49v-1.72c-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.1-1.5-1.1-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.57 2.34 1.12 2.91.85.09-.66.35-1.12.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.72 0 0 .84-.27 2.75 1.05A9.36 9.36 0 0 1 12 6.84c.85 0 1.7.12 2.5.34 1.9-1.32 2.74-1.05 2.74-1.05.55 1.42.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9v2.82c0 .27.18.59.69.49A10.27 10.27 0 0 0 22 12.26C22 6.58 17.52 2 12 2z"/></svg>
+      Code
+    </a>
+    <a href="https://www.kaggle.com/datasets/fatehajannatayrin/turbulence-blur-text-extraction-book-images" class="btn" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      Dataset
+    </a>
+    <a href="https://huggingface.co/spaces/Rafi123/qwen3b-autonomous-demo" class="btn" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+      Demo
+    </a>
+  </div>
+</div>
 
-    <div class="authors-line">
-      <a href="mailto:fjayrin@std.cu.ac.bd">Fateha Jannata Ayrin</a><sup>1*</sup>
-      &ensp;·&ensp;
-      <a href="mailto:azim@cu.ac.bd">Muhammad Anwarul Azim</a><sup>1*</sup>
-      &ensp;·&ensp;
-      <a href="mailto:mkislam@cu.ac.bd">Mohammad Khairul Islam</a><sup>1</sup>
-    </div>
-    <div class="affil-line">
-      <sup>1</sup>Department of Computer Science and Engineering, University of Chittagong, Bangladesh
-    </div>
-    <div class="equal-note">* Equal Contribution</div>
 
-    <div class="link-row">
-      <a href="https://github.com/ayrin21/asft" class="lbtn" target="_blank">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Paper
-      </a>
-      <a href="https://github.com/ayrin21/asft" class="lbtn" target="_blank">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.52 2.87 8.35 6.84 9.7.5.09.68-.22.68-.49v-1.72c-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.1-1.5-1.1-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.57 2.34 1.12 2.91.85.09-.66.35-1.12.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.72 0 0 .84-.27 2.75 1.05A9.36 9.36 0 0 1 12 6.84c.85 0 1.7.12 2.5.34 1.9-1.32 2.74-1.05 2.74-1.05.55 1.42.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9v2.82c0 .27.18.59.69.49A10.27 10.27 0 0 0 22 12.26C22 6.58 17.52 2 12 2z"/></svg>
-        Code
-      </a>
-      <a href="https://www.kaggle.com/datasets/fatehajannatayrin/turbulence-blur-text-extraction-book-images" class="lbtn" target="_blank">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-        Dataset
-      </a>
-      <a href="https://huggingface.co/spaces/Rafi123/qwen3b-autonomous-demo" class="lbtn" target="_blank">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-        Demo
-      </a>
+<!-- ════════════════════════════════
+     ABSTRACT
+════════════════════════════════ -->
+<div id="abstract" class="sec">
+  <h2>Abstract</h2>
+  <p class="prose">
+    Optical character recognition (OCR) on turbulence-degraded images is challenging due to spatially correlated blur and pixel-level distortions that disrupt character structures. An <strong>Autonomous Self-Supervised Fine-Tuning (ASFT)</strong> framework is proposed to improve OCR performance of Qwen2.5-VL-3B on book cover images affected by strong atmospheric turbulence (&alpha;&nbsp;=&nbsp;0.7). A systematic evaluation of 14 adapter configurations on 5,000 turbulence-degraded samples identifies standard QLoRA (4-bit NF4, <em>r</em>&nbsp;=&nbsp;32) as the most stable and effective quantized fine-tuning strategy.
+  </p>
+  <p class="prose">
+    A comprehensive architectural study across multiple self-supervision paradigms&mdash;including GRPO-based learning, consistency regularization, contrastive self-critique, and curriculum-based training&mdash;is conducted. The ASFT framework integrates a turbulence simulation pipeline, a hidden-state-driven quality evaluation mechanism, a lightweight self-critique module for representation refinement, and an adaptive curriculum strategy for dynamic difficulty control. On a held-out test set of 50 samples, ASFT achieves <strong>93.27% text similarity</strong>, <strong>88.18% word F1</strong>, <strong>9.59% CER</strong>, and <strong>14.57% WER</strong>, outperforming all evaluated supervision strategies and the zero-shot baseline by a significant margin.
+  </p>
+  <div class="kw-row">
+    <span class="kw">vision-language models</span>
+    <span class="kw">self-supervised learning</span>
+    <span class="kw">atmospheric turbulence</span>
+    <span class="kw">autonomous training</span>
+    <span class="kw">QLoRA</span>
+    <span class="kw">OCR</span>
+    <span class="kw">curriculum learning</span>
+    <span class="kw">quality-aware loss</span>
+  </div>
+</div>
+
+<hr class="div" style="margin-top:50px;">
+
+
+<!-- ════════════════════════════════
+     VIDEO
+════════════════════════════════ -->
+<div id="video" class="sec">
+  <h2>Video</h2>
+  <p class="prose">
+    Full interface demonstration of the ASFT system on turbulence-degraded book cover images. The video shows the end-to-end pipeline: a degraded input (&alpha;&nbsp;=&nbsp;0.7) is fed into the fine-tuned Qwen2.5-VL-3B model, which produces structured OCR output with Title, Author, and Other metadata fields.
+  </p>
+  <div class="video-outer">
+    <video controls autoplay loop muted playsinline id="demo-video">
+      <source src="demo.mp4" type="video/mp4">
+    </video>
+    <div class="video-missing" id="video-fallback">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><polygon points="10 9 15 12 10 15 10 9"/></svg>
+      <p>Upload your video file as <strong style="color:#aaa;">demo.mp4</strong><br>alongside this index.html</p>
+    </div>
+  </div>
+  <p class="cap">
+    <b>Video 1.</b> Full system interface demonstration. The ASFT-based OCR system takes a turbulence-blurred book cover as input and outputs structured fields (Title, Author, Other). Illustrates the robustness of the fine-tuned Qwen2.5-VL-3B model under severe atmospheric distortion (&alpha;&nbsp;=&nbsp;0.7).
+  </p>
+</div>
+
+<hr class="div" style="margin-top:50px;">
+
+
+<!-- ════════════════════════════════
+     IMAGES
+════════════════════════════════ -->
+<div id="images" class="sec">
+  <h2>Qualitative Results</h2>
+  <p class="prose">
+    Representative figures from the paper illustrating the system interface, turbulence degradation pipeline, architecture, and quantitative analysis.
+  </p>
+
+  <div class="fig">
+    <img src="Screenshot 2026-04-08 005848.png" alt="ASFT system interface" onerror="this.style.display='none'">
+    <p class="cap"><b>Figure 1.</b> Interface of the proposed ASFT-based OCR system. The system takes a turbulence-blurred book cover as input and generates structured outputs (Title, Author, Other), demonstrating robust text extraction under severe visual distortion.</p>
+  </div>
+
+  <div class="fig">
+    <img src="Untitled design(2).png" alt="Turbulence degradation: clean vs blurred" onerror="this.style.display='none'">
+    <p class="cap"><b>Figure 2.</b> Turbulence degradation example. Left: clean book cover. Right: turbulence-blurred version (&alpha;&nbsp;=&nbsp;0.7) showing spatial warping, edge smearing, and character merging that challenge standard OCR pipelines.</p>
+  </div>
+
+  <div class="fig-2col">
+    <div class="fig">
+      <img src="Fig 2.png" alt="Supervision layer evolution L0 to L7" onerror="this.style.display='none'">
+      <p class="cap"><b>Figure 3.</b> Supervision layer evolution from L0 (standard QLoRA) to L7 (Full ASFT). Only L7 combines AQE, SCM, and ACM with a composite loss, yielding 93.27% TS and 9.59% CER.</p>
+    </div>
+    <div class="fig">
+      <img src="Fig 7.png" alt="Loss function architecture" onerror="this.style.display='none'">
+      <p class="cap"><b>Figure 4.</b> Loss function architecture. The total loss combines cross-entropy, quality-aware, and consistency terms. AQE decisions gate loss scaling: &times;0.9 (accept), &times;1.0 (refine), &times;1.5 (reject).</p>
     </div>
   </div>
 
+  <div class="fig">
+    <img src="Fig. 8.png" alt="Autonomous Self-Supervision System" onerror="this.style.display='none'">
+    <p class="cap"><b>Figure 5.</b> Novel Contribution: Autonomous Self-Supervision System. The Qwen2.5-VL forward pass extracts last-layer hidden states H &isin; &real;<sup>B&times;T&times;2048</sup>. Multi-head attention, Quality Evaluator, and Self-Critique Module operate jointly. Every 5 steps, the Decision Maker gates accept/refine/reject and the ACM adjusts the quality threshold.</p>
+  </div>
 
-  <!-- ══════════════════════════════════════
-       ABSTRACT
-  ══════════════════════════════════════ -->
-  <div id="abstract" class="sec">
-    <h2>Abstract</h2>
-    <p class="body-text">
-      Optical character recognition (OCR) on turbulence-degraded images is challenging due to spatially correlated blur and pixel-level distortions that disrupt character structures. An <strong>Autonomous Self-Supervised Fine-Tuning (ASFT)</strong> framework is proposed to improve OCR performance of Qwen2.5-VL-3B on book cover images affected by strong atmospheric turbulence (α&nbsp;=&nbsp;0.7). A systematic evaluation of 14 adapter configurations on 5,000 turbulence-degraded samples identifies standard QLoRA (4-bit NF4, <em>r</em>&nbsp;=&nbsp;32) as the most stable and effective quantized fine-tuning strategy.
-    </p>
-    <p class="body-text">
-      A comprehensive architectural study across multiple self-supervision paradigms—including GRPO-based learning, consistency regularization, contrastive self-critique, and curriculum-based training—is conducted. The ASFT framework integrates a turbulence simulation pipeline, a hidden-state-driven quality evaluation mechanism, a lightweight self-critique module for representation refinement, and an adaptive curriculum strategy for dynamic difficulty control. On a held-out test set of 50 samples, ASFT achieves <strong>93.27% text similarity</strong>, <strong>88.18% word F1</strong>, <strong>9.59% CER</strong>, and <strong>14.57% WER</strong>, outperforming all evaluated supervision strategies and the zero-shot baseline by a significant margin.
-    </p>
-    <div class="kw-list">
-      <span class="kw">vision-language models</span>
-      <span class="kw">self-supervised learning</span>
-      <span class="kw">atmospheric turbulence</span>
-      <span class="kw">autonomous training</span>
-      <span class="kw">QLoRA</span>
-      <span class="kw">OCR</span>
-      <span class="kw">curriculum learning</span>
-      <span class="kw">quality-aware loss</span>
+  <div class="fig-2col">
+    <div class="fig">
+      <img src="Fig. 9.png" alt="Gradient flow and optimisation pipeline" onerror="this.style.display='none'">
+      <p class="cap"><b>Figure 6.</b> Gradient flow and optimisation pipeline. The composite loss backpropagates through quality and consistency terms, updating QLoRA adapter weights via paged AdamW 8-bit across 490 training steps.</p>
+    </div>
+    <div class="fig">
+      <img src="Fig 10.png" alt="Evaluation pipeline and results summary" onerror="this.style.display='none'">
+      <p class="cap"><b>Figure 7.</b> Evaluation pipeline. The saved LoRA adapter is loaded with 4-bit inference, run on 50 turbulence-blurred test covers at 7.13&nbsp;s/sample, and scored at field level (Title, Author, Other).</p>
     </div>
   </div>
 
-  <hr class="sec-div" style="margin-top:52px;">
-
-
-  <!-- ══════════════════════════════════════
-       VIDEO DEMO
-  ══════════════════════════════════════ -->
-  <div id="video" class="sec">
-    <h2>Video</h2>
-    <p class="body-text">
-      Full interface demonstration of the ASFT system on turbulence-degraded book cover images. The video shows the end-to-end pipeline: degraded input (α&nbsp;=&nbsp;0.7) is fed into the fine-tuned Qwen2.5-VL-3B model, which produces structured OCR output with title, author, and metadata fields.
-    </p>
-
-    <div class="video-wrap">
-      <!-- Replace demo.mp4 with your actual video filename -->
-      <video controls autoplay loop muted playsinline id="demo-video">
-        <source src="demo.mp4" type="video/mp4">
-      </video>
-      <!-- Shown only when video file is missing -->
-      <div class="video-placeholder-full" id="video-fallback" style="display:none;">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.2"><rect x="2" y="4" width="20" height="16" rx="2"/><polygon points="10 9 15 12 10 15 10 9"/></svg>
-        <p>Place your video file here:<br><strong style="color:#aaa;">demo.mp4</strong></p>
-        <p style="font-size:11px; color:#444; margin-top:4px;">Compress with: ffmpeg -i input.mp4 -vcodec libx264 -crf 26 demo.mp4</p>
-      </div>
-    </div>
-
-    <p class="fig-caption">
-      <strong>Video 1.</strong> Full system interface demonstration. The ASFT-based OCR system takes a turbulence-blurred book cover as input and outputs structured fields (Title, Author, Other). The video shows inference on multiple samples, illustrating the robustness of the fine-tuned Qwen2.5-VL-3B model under severe atmospheric distortion (α&nbsp;=&nbsp;0.7).
-    </p>
+  <div class="fig">
+    <img src="fig 14.png" alt="Four-panel visual argument for ASFT superiority" onerror="this.style.display='none'">
+    <p class="cap"><b>Figure 8.</b> Four-panel visual argument for ASFT superiority. (a) Five-metric advantage radar. (b) Gradient flow comparison vs. standard QLoRA. (c) AQE decision landscape across training phases. (d) Component necessity matrix showing failure modes per ablated component.</p>
   </div>
 
-  <hr class="sec-div" style="margin-top:52px;">
+  <div class="fig">
+    <img src="Copy of Copy of Copy of Beige White Simple Project Scope Baseline Planner (2000 x 1000 px).png" alt="ASFT architecture overview" onerror="this.style.display='none'">
+    <p class="cap"><b>Figure 9.</b> ASFT architecture overview. A degraded book cover is processed by the Qwen2.5-VL backbone. During training, hidden states are routed through AQE, SCM, and ACM to produce the composite loss. At inference, only the saved LoRA adapter is loaded &mdash; zero overhead.</p>
+  </div>
+</div>
+
+<hr class="div" style="margin-top:50px;">
 
 
-  <!-- ══════════════════════════════════════
-       IMAGES
-  ══════════════════════════════════════ -->
-  <div id="images" class="sec">
-    <h2>Qualitative Results</h2>
-    <p class="body-text">
-      Representative figures from the paper showing the system interface, turbulence degradation examples, architecture diagrams, and quantitative analysis plots.
-    </p>
+<!-- ════════════════════════════════
+     METHODOLOGY
+════════════════════════════════ -->
+<div id="methodology" class="sec">
+  <h2>Methodology</h2>
+  <p class="prose">
+    The ASFT framework is built on Qwen2.5-VL-3B fine-tuned with QLoRA (4-bit NF4, <em>r</em>&nbsp;=&nbsp;32, &alpha;&nbsp;=&nbsp;64). Three novel modules attach to final-layer hidden states during training only and are discarded at inference, adding zero computational overhead.
+  </p>
 
-    <!-- Fig 1: System interface -->
-    <div class="fig-wrap">
-      <img src="Screenshot 2026-04-08 005848.png"
-           alt="ASFT system interface"
-           onerror="this.style.display='none'">
-      <p class="fig-caption">
-        <strong>Figure 1.</strong> Interface of the proposed ASFT-based OCR system for turbulence-degraded book covers. The system takes a blurred input image and generates structured outputs including Title, Author, and additional metadata fields, demonstrating robust text extraction under severe visual distortion.
-      </p>
-    </div>
-
-    <!-- Fig 2: Turbulence degradation example -->
-    <div class="fig-wrap">
-      <img src="Untitled design(2).png"
-           alt="Turbulence degradation example: clean vs blurred book cover"
-           onerror="this.style.display='none'">
-      <p class="fig-caption">
-        <strong>Figure 2.</strong> Turbulence degradation example. Left: clean book cover. Right: turbulence-blurred version (α&nbsp;=&nbsp;0.7) showing spatial warping, edge smearing, and character merging that challenge standard OCR pipelines.
-      </p>
-    </div>
-
-    <!-- Fig 3 + Fig 7 side by side -->
-    <div class="fig-row">
-      <div class="fig-wrap">
-        <img src="Fig 2.png"
-             alt="Supervision layer evolution L0 to L7"
-             onerror="this.style.display='none'">
-        <p class="fig-caption">
-          <strong>Figure 3.</strong> Supervision layer evolution from L0 (standard QLoRA) to L7 (Full ASFT). Each column shows auxiliary modules added on top of the shared QLoRA backbone. Only L7 combines AQE, SCM, and ACM with a composite loss, yielding 93.27% TS and 9.59% CER.
-        </p>
+  <div class="cards">
+    <div class="card">
+      <div class="card-head">
+        <span class="card-tag">AQE</span>
+        <span class="card-title">Autonomous Quality Evaluator</span>
       </div>
-      <div class="fig-wrap">
-        <img src="Fig 7.png"
-             alt="Loss function architecture"
-             onerror="this.style.display='none'">
-        <p class="fig-caption">
-          <strong>Figure 4.</strong> Loss function architecture. The total loss combines cross-entropy, quality-aware, and consistency terms. AQE decisions gate one of three multiplicative scalings: ×0.9 (accept), ×1.0 (refine), ×1.5 (reject).
-        </p>
+      <p>Four scalar quality scores (accuracy, coherence, completeness, confidence) from mean-pooled hidden states via independent MLP heads (<em>d</em>&rarr;256&rarr;64&rarr;1, LayerNorm, GELU). A meta-decision network maps scores to a three-way decision: <strong>Accept</strong> (&times;0.9 loss), <strong>Refine</strong> (&times;1.0), or <strong>Reject</strong> (&times;1.5), focusing gradient on hard examples.</p>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <span class="card-tag">SCM</span>
+        <span class="card-title">Self-Critique Module</span>
       </div>
+      <p>A single-layer Transformer encoder re-processes hidden states H to derive an improvement vector &Delta;H. Refined states H&#771;&nbsp;=&nbsp;H&nbsp;+&nbsp;W<sub>r</sub>[H;&nbsp;&Delta;H] are used in the consistency loss. Operates at training time only &mdash; zero inference overhead. Uses d<sub>model</sub>&nbsp;=&nbsp;2048, 8 heads, pre-norm, dropout 0.1.</p>
     </div>
-
-    <!-- Fig 8: Novel contribution -->
-    <div class="fig-wrap">
-      <img src="Fig. 8.png"
-           alt="Autonomous Self-Supervision System"
-           onerror="this.style.display='none'">
-      <p class="fig-caption">
-        <strong>Figure 5.</strong> Novel Contribution: Autonomous Self-Supervision System. The Qwen2.5-VL forward pass extracts last-layer hidden states H ∈ ℝ<sup>B×T×2048</sup>. Inside the layer, multi-head attention, Quality Evaluator, and Self-Critique Module operate jointly. Every 5 steps, the Decision Maker gates accept/refine/reject and the Adaptive Curriculum Manager adjusts the quality threshold.
-      </p>
-    </div>
-
-    <!-- Fig 9 + Fig 10 side by side -->
-    <div class="fig-row">
-      <div class="fig-wrap">
-        <img src="Fig. 9.png"
-             alt="Gradient flow and optimisation pipeline"
-             onerror="this.style.display='none'">
-        <p class="fig-caption">
-          <strong>Figure 6.</strong> Gradient flow and optimisation pipeline. The composite loss backpropagates through quality and consistency terms, updating QLoRA adapter weights via paged AdamW 8-bit. The curriculum manager completes a closed feedback loop across 490 training steps.
-        </p>
+    <div class="card">
+      <div class="card-head">
+        <span class="card-tag">ACM</span>
+        <span class="card-title">Adaptive Curriculum Manager</span>
       </div>
-      <div class="fig-wrap">
-        <img src="Fig 10.png"
-             alt="Evaluation pipeline and results summary"
-             onerror="this.style.display='none'">
-        <p class="fig-caption">
-          <strong>Figure 7.</strong> Evaluation pipeline and results summary. The saved LoRA adapter is loaded with 4-bit inference, run on 50 turbulence-blurred test covers at 7.13 s/sample, and scored with SequenceMatcher at field level (Title, Author, Other).
-        </p>
-      </div>
+      <p>Rolling window of size 50 over quality scores and acceptance rates, adapting the AQE quality threshold &tau;<sub>t</sub> at each step. Increases difficulty by 0.05 when performance exceeds 0.90 and acceptance rate exceeds 0.80; decreases by 0.08 when performance falls below 0.70. Reached maximum difficulty after only 50 samples.</p>
     </div>
-
-    <!-- Fig 14: Four-panel -->
-    <div class="fig-wrap">
-      <img src="fig 14.png"
-           alt="Four-panel visual argument for ASFT superiority"
-           onerror="this.style.display='none'">
-      <p class="fig-caption">
-        <strong>Figure 8.</strong> Four-panel visual argument for ASFT superiority. (a) Five-metric advantage radar. (b) Gradient flow comparison between standard QLoRA and ASFT. (c) AQE decision landscape across training phases. (d) Component necessity matrix showing failure modes when each component is removed.
-      </p>
-    </div>
-
-    <!-- Architecture overview -->
-    <div class="fig-wrap">
-      <img src="Copy of Copy of Copy of Beige White Simple Project Scope Baseline Planner (2000 x 1000 px).png"
-           alt="ASFT full architecture overview"
-           onerror="this.style.display='none'">
-      <p class="fig-caption">
-        <strong>Figure 9.</strong> ASFT architecture overview. A degraded book cover image is processed by the Qwen2.5-VL backbone. During training, hidden states are routed through AQE, SCM, and ACM to produce the composite training loss. At inference, only the saved LoRA adapter is loaded — AQE, SCM, and ACM add zero inference overhead.
-      </p>
-    </div>
-
   </div>
 
-  <hr class="sec-div" style="margin-top:52px;">
+  <h3 class="sub">Composite Loss Function</h3>
+  <div class="eq">
+    &Lscr; = &Lscr;<sub>CE</sub> + 0.35 &middot; &Lscr;<sub>qual</sub> &minus; 0.25 &middot; &Lscr;<sub>cons</sub><br>
+    &Lscr;<sub>qual</sub> = (1/4) &sum;<sub>k</sub> (1 &minus; s<sub>k</sub>) <span class="comment">&nbsp;&nbsp;// drives all 4 quality scores toward 1</span><br>
+    &Lscr;<sub>cons</sub> = &minus;(1/T) &sum;<sub>t</sub> s<sub>conf</sub> &middot; cos(H&#771;<sub>t</sub>, H<sub>t</sub>) <span class="comment">&nbsp;&nbsp;// consistency: refined vs original</span>
+  </div>
+  <p class="prose">
+    Loss weights &lambda;<sub>1</sub>&nbsp;=&nbsp;0.35 and &lambda;<sub>2</sub>&nbsp;=&nbsp;0.25 selected by grid search over {0.10, 0.25, 0.35, 0.50} on validation set. Over-weighting quality loss (&lambda;<sub>1</sub>&nbsp;=&nbsp;0.50) destabilises training by up to &minus;3.73&nbsp;pp.
+  </p>
+
+  <h3 class="sub">Training Configuration</h3>
+  <p class="prose">
+    Effective batch size 16 (per-device 4, gradient accumulation 4), learning rate &eta;&nbsp;=&nbsp;2&times;10<sup>&minus;4</sup> with cosine schedule and 50 warm-up steps, BF16 precision, <code>paged_adamw_8bit</code>, gradient clipping 0.3. Dual Tesla T4 GPUs. Training time: ~40 min (400 samples) / ~368 min (full run).
+  </p>
+</div>
+
+<hr class="div" style="margin-top:50px;">
 
 
-  <!-- ══════════════════════════════════════
-       METHODOLOGY
-  ══════════════════════════════════════ -->
-  <div id="methodology" class="sec">
-    <h2>Methodology</h2>
+<!-- ════════════════════════════════
+     EXPERIMENTS
+════════════════════════════════ -->
+<div id="experiments" class="sec">
+  <h2>Experiments</h2>
 
-    <p class="body-text">
-      The ASFT framework is built on top of Qwen2.5-VL-3B fine-tuned with QLoRA (4-bit NF4, <em>r</em>&nbsp;=&nbsp;32, α&nbsp;=&nbsp;64). Three novel modules are attached to the final-layer hidden states during training only — they are discarded at inference, adding zero computational overhead to deployment.
-    </p>
+  <h3 class="sub">Dataset</h3>
+  <p class="prose">
+    500 book cover images (Project Gutenberg via Kaggle) degraded with our turbulence simulation pipeline: spatially correlated Gaussian displacement fields (&Delta;x, &Delta;y &sim; &Nu;(0, (&alpha;&middot;4.5)<sup>2</sup>), &alpha;&nbsp;=&nbsp;0.7), 11&times;11 Gaussian kernel smoothing, bilinear remapping, then final Gaussian blur (9&times;9, &sigma;<sub>b</sub>&nbsp;=&nbsp;2.0). Split: <strong>400&nbsp;/&nbsp;50&nbsp;/&nbsp;50</strong> (train / val / test, seed 42).
+  </p>
 
-    <div class="component-grid">
-      <div class="comp-card">
-        <h3><span class="tag">AQE</span> Autonomous Quality Evaluator</h3>
-        <p>Four scalar quality scores (accuracy, coherence, completeness, confidence) are produced from mean-pooled hidden states via independent MLP heads (<em>d</em>→256→64→1, LayerNorm, GELU). A meta-decision network maps the quality vector to a three-way decision: <strong>Accept</strong> (×0.9 loss scale), <strong>Refine</strong> (×1.0), or <strong>Reject</strong> (×1.5), focusing gradient on hard examples.</p>
-      </div>
-      <div class="comp-card">
-        <h3><span class="tag">SCM</span> Self-Critique Module</h3>
-        <p>A single-layer Transformer encoder re-processes hidden states H to derive an improvement vector ΔH. Refined hidden states H̃&nbsp;=&nbsp;H&nbsp;+&nbsp;W<sub>r</sub>[H;&nbsp;ΔH] are used in the consistency loss. The SCM operates only at training time, adding zero inference overhead. The encoder uses d<sub>model</sub>&nbsp;=&nbsp;2048, 8 heads, pre-norm architecture with dropout 0.1.</p>
-      </div>
-      <div class="comp-card">
-        <h3><span class="tag">ACM</span> Adaptive Curriculum Manager</h3>
-        <p>Maintains a rolling window of size 50 over quality scores and acceptance rates, adapting the AQE quality threshold τ<sub>t</sub> at each update step. Difficulty increases by 0.05 when rolling-window performance exceeds 0.90 and acceptance rate exceeds 0.80; decreases by 0.08 when performance falls below 0.70. In experiments, the ACM reached maximum difficulty after only 50 rolling samples.</p>
-      </div>
-    </div>
+  <h3 class="sub">Backbone Selection</h3>
+  <p class="prose">
+    Standard LoRA fine-tuning (<em>r</em>&nbsp;=&nbsp;32, 2 epochs, 400 samples) applied to seven VLMs. OCR-specialist models (TrOCR, GOT-OCR) remain below 65% TS due to fixed-vocabulary decoders. General-purpose VLMs converge at 67&ndash;76% TS. <strong>Qwen2.5-VL-3B achieves 76.40% TS</strong>, outperforming LLaVA-1.6-7B by +25.74&nbsp;pp despite fewer parameters &mdash; reasoning capability matters more than scale.
+  </p>
 
-    <h3 style="font-size:16px; font-weight:600; color:#333; margin:24px 0 10px;">Composite Loss Function</h3>
-    <div class="eq-box">
-      ℒ = ℒ<sub>CE</sub> + 0.35 · ℒ<sub>qual</sub> − 0.25 · ℒ<sub>cons</sub><br><br>
-      ℒ<sub>qual</sub> = (1/4) Σ<sub>k</sub> (1 − s<sub>k</sub>)&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#888;">// drives all 4 quality scores toward 1</span><br><br>
-      ℒ<sub>cons</sub> = −(1/T) Σ<sub>t</sub> s<sub>conf</sub> · cos(H̃<sub>t</sub>, H<sub>t</sub>)&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#888;">// consistency between refined and original</span>
-    </div>
-    <p class="body-text">
-      The loss weights λ<sub>1</sub>&nbsp;=&nbsp;0.35 and λ<sub>2</sub>&nbsp;=&nbsp;0.25 were selected by grid search over {0.10, 0.25, 0.35, 0.50} on the validation set. The optimal cell (0.35, 0.25) achieves 93.27% TS. Over-weighting the quality loss (λ<sub>1</sub>&nbsp;=&nbsp;0.50) destabilises training by up to −3.73 pp.
-    </p>
+  <h3 class="sub">Adapter Method Selection (14 Configurations)</h3>
+  <p class="prose">
+    14 adapter strategies evaluated on 3,956 samples over 2 epochs on dual Tesla T4. Enhanced LoRA+ v1 diverged (loss 2.14) and LoRA+ Extreme collapsed (loss 4.04). <strong>Standard QLoRA achieves the lowest loss (0.5115)</strong> and is adopted for all ASFT experiments.
+  </p>
 
-    <h3 style="font-size:16px; font-weight:600; color:#333; margin:24px 0 10px;">Training Configuration</h3>
-    <p class="body-text">
-      Effective batch size 16 (per-device batch 4, gradient accumulation 4), learning rate η&nbsp;=&nbsp;2×10<sup>−4</sup> with cosine schedule and 50 warm-up steps, BF16 precision, <code>paged_adamw_8bit</code>, gradient clipping at 0.3. All experiments run on dual Tesla T4 GPUs. Training time: ~40 minutes for the 400-sample run and ~368 minutes for the full ASFT run.
-    </p>
+  <h3 class="sub">Supervision Layer Architecture Search</h3>
+  <p class="prose">
+    Seven layer configurations compared on the same QLoRA backbone (400 samples, 2 epochs). Any single component improves over QLoRA but stays below 90% TS. Only Full ASFT (L7) with all three components crosses 93% TS.
+  </p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Layer</th><th>Name</th><th>AQE</th><th>SCM</th><th>ACM</th><th>TS (%)</th><th>CER (%) &darr;</th><th>Key Weakness</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>0</td><td>Standard QLoRA</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>84.10</td><td>20.50</td><td>No self-supervision</td></tr>
+        <tr><td>1</td><td>Vanilla Self-Supervision</td><td>partial</td><td>&mdash;</td><td>&mdash;</td><td>85.12</td><td>18.43</td><td>No decision logic</td></tr>
+        <tr><td>2</td><td>GRPO-Augmented Layer</td><td>&mdash;</td><td>&mdash;</td><td>partial</td><td>86.74</td><td>16.88</td><td>Reward variance</td></tr>
+        <tr><td>3</td><td>Consistency-Only</td><td>&mdash;</td><td>&#10003;</td><td>&mdash;</td><td>87.31</td><td>15.92</td><td>No hard-example emphasis</td></tr>
+        <tr><td>4</td><td>Contrastive Self-Critique</td><td>partial</td><td>&#10003;</td><td>&mdash;</td><td>87.83</td><td>15.17</td><td>Batch diversity constraint</td></tr>
+        <tr><td>5</td><td>Hybrid AQE+GRPO</td><td>&#10003;</td><td>&mdash;</td><td>partial</td><td>88.94</td><td>13.52</td><td>Dual-scaling instability</td></tr>
+        <tr><td>6</td><td>Progressive Curriculum</td><td>&mdash;</td><td>&mdash;</td><td>&#10003;</td><td>88.97</td><td>13.47</td><td>Fixed schedule</td></tr>
+        <tr class="ours"><td><b>7</b></td><td><b>Full ASFT (Ours)</b></td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td class="b">93.27</td><td class="b">9.59</td><td>None identified</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="cap"><b>Table 1.</b> Supervision layer architecture search. All layers: QLoRA NF4 <em>r</em>&nbsp;=&nbsp;32, 2 epochs, 400 training samples, evaluated on 50 test samples.</p>
+</div>
+
+<hr class="div" style="margin-top:50px;">
+
+
+<!-- ════════════════════════════════
+     RESULTS
+════════════════════════════════ -->
+<div id="results" class="sec">
+  <h2>Results</h2>
+  <p class="prose">
+    ASFT achieves the best value on every metric across all 50 held-out test samples. Exact match reaches 38% (19/50) compared with 0% for the zero-shot baseline. Of 50 test samples, 37 (74%) fall in the Excellent tier (&ge;90% TS), 9 (18%) in Good (75&ndash;90%), and 4 (8%) in Fair (&lt;75%). Per-sample standard deviation: ASFT 8.66% vs. base 11.35%.
+  </p>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Method</th><th>EM (%)</th><th>TS (%)</th><th>W-F1 (%)</th><th>CER (%) &darr;</th><th>WER (%) &darr;</th></tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="6" class="grp">Zero-shot baseline</td></tr>
+        <tr><td>Base (Zero-shot)</td><td>0.00</td><td>45.09</td><td>28.74</td><td>72.80</td><td>89.30</td></tr>
+        <tr><td colspan="6" class="grp">Fine-tuning baselines</td></tr>
+        <tr><td>Standard SFT</td><td>18.00</td><td>76.40</td><td>72.30</td><td>31.20</td><td>38.60</td></tr>
+        <tr><td>Standard QLoRA</td><td>26.00</td><td>84.10</td><td>79.80</td><td>20.50</td><td>28.40</td></tr>
+        <tr><td colspan="6" class="grp">Supervision layer variants</td></tr>
+        <tr><td>VSS (Layer 1)</td><td>28.00</td><td>85.12</td><td>81.03</td><td>18.43</td><td>26.17</td></tr>
+        <tr><td>GRPO-L (Layer 2)</td><td>30.00</td><td>86.74</td><td>82.41</td><td>16.88</td><td>24.03</td></tr>
+        <tr><td>COS (Layer 3)</td><td>30.00</td><td>87.31</td><td>83.19</td><td>15.92</td><td>22.88</td></tr>
+        <tr><td>CSC (Layer 4)</td><td>32.00</td><td>87.83</td><td>83.94</td><td>15.17</td><td>21.74</td></tr>
+        <tr><td>HAG (Layer 5)</td><td>34.00</td><td>88.94</td><td>85.07</td><td>13.52</td><td>19.63</td></tr>
+        <tr><td>PCL (Layer 6)</td><td>34.00</td><td>88.97</td><td>85.11</td><td>13.47</td><td>19.58</td></tr>
+        <tr><td colspan="6" class="grp">Proposed method</td></tr>
+        <tr class="ours">
+          <td><b>ASFT (Ours)</b></td>
+          <td class="b">38.00</td><td class="b">93.27</td>
+          <td class="b">88.18</td><td class="b">9.59</td><td class="b">14.57</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="cap"><b>Table 2.</b> Performance on 50 turbulence-blurred test samples. ASFT outperforms the closest competing layer (PCL) by +4.30&nbsp;pp TS and &minus;3.88&nbsp;pp CER. Bold = best result.</p>
+</div>
+
+<hr class="div" style="margin-top:50px;">
+
+
+<!-- ════════════════════════════════
+     ABLATION
+════════════════════════════════ -->
+<div id="ablation" class="sec">
+  <h2>Ablation Study</h2>
+  <p class="prose">
+    Six complementary ablation experiments isolate every design choice in ASFT. All ablations use QLoRA backbone (<em>r</em>&nbsp;=&nbsp;32, NF4) and report mean&nbsp;&plusmn;&nbsp;std over 3 seeds on the fixed 50-sample test set.
+  </p>
+
+  <h3 class="sub">A. Incremental Component Addition</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Configuration</th><th>AQE</th><th>SCM</th><th>ACM</th><th>TS (%)</th><th>&Delta;TS</th><th>CER (%)</th><th>EM (%)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Base (zero-shot)</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>45.09 &plusmn;0.00</td><td>&mdash;</td><td>72.80</td><td>0.0</td></tr>
+        <tr><td>+Std SFT</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>76.40 &plusmn;0.31</td><td>+31.31</td><td>31.20</td><td>18.0</td></tr>
+        <tr><td>+Std QLoRA</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>84.10 &plusmn;0.44</td><td>+7.70</td><td>20.50</td><td>26.0</td></tr>
+        <tr><td>+AQE only</td><td>&#10003;</td><td>&mdash;</td><td>&mdash;</td><td>87.90 &plusmn;0.38</td><td>+3.80</td><td>16.30</td><td>30.0</td></tr>
+        <tr><td>+AQE + SCM</td><td>&#10003;</td><td>&#10003;</td><td>&mdash;</td><td>90.50 &plusmn;0.29</td><td>+2.60</td><td>12.80</td><td>34.0</td></tr>
+        <tr class="ours"><td><b>Full ASFT</b></td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td class="b">93.27 &plusmn;0.22</td><td class="b">+2.77</td><td class="b">9.59</td><td class="b">38.0</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <hr class="sec-div" style="margin-top:52px;">
-
-
-  <!-- ══════════════════════════════════════
-       EXPERIMENTS
-  ══════════════════════════════════════ -->
-  <div id="experiments" class="sec">
-    <h2>Experiments</h2>
-
-    <h3 style="font-size:16px; font-weight:600; color:#333; margin:0 0 10px;">Dataset</h3>
-    <p class="body-text">
-      500 book cover images from the Book Image Dataset (Project Gutenberg, via Kaggle) are degraded using a turbulence simulation pipeline. Each image is distorted by spatially correlated Gaussian displacement fields (Δx, Δy ~&nbsp;𝒩(0, (α·4.5)<sup>2</sup>), α&nbsp;=&nbsp;0.7), smoothed with an 11×11 Gaussian kernel, followed by bilinear remapping and a final Gaussian blur (9×9, σ<sub>b</sub>&nbsp;=&nbsp;2.0). The 500 images are split <strong>400 / 50 / 50</strong> (train / val / test, seed 42).
-    </p>
-
-    <h3 style="font-size:16px; font-weight:600; color:#333; margin:24px 0 10px;">Backbone Selection</h3>
-    <p class="body-text">
-      Standard LoRA fine-tuning (<em>r</em>&nbsp;=&nbsp;32, 2 epochs, 400 samples) is applied to seven VLMs. OCR-specialist models (TrOCR, GOT-OCR) remain below 65% TS due to fixed-vocabulary decoders. General-purpose VLMs converge in the 67–76% TS range. <strong>Qwen2.5-VL-3B achieves 76.40% TS</strong>, outperforming LLaVA-1.6-7B by +25.74 pp despite having fewer parameters, indicating that reasoning capability matters more than model scale for turbulence-degraded OCR.
-    </p>
-
-    <h3 style="font-size:16px; font-weight:600; color:#333; margin:24px 0 10px;">Adapter Method Selection (14 Configurations)</h3>
-    <p class="body-text">
-      14 adapter strategies are evaluated on Qwen2.5-VL-3B using 3,956 samples over 2 epochs on dual Tesla T4 GPUs. Full-precision LoRA variants (BF16) achieve slightly lower losses (0.5165–0.5181) but require 381–444 minutes. Advanced strategies including rsLoRA with LISA and QDoRA add overhead without improving loss. Enhanced LoRA+ v1 diverged (loss 2.14) and LoRA+ Extreme collapsed (loss 4.04). <strong>Standard QLoRA (run 1) achieves the lowest loss (0.5115)</strong> among all quantized methods and is adopted for all ASFT experiments.
-    </p>
-
-    <h3 style="font-size:16px; font-weight:600; color:#333; margin:24px 0 10px;">Supervision Layer Architecture Search</h3>
-    <p class="body-text">
-      Seven layer configurations are compared, all built on the same QLoRA backbone and trained on 400 samples for 2 epochs. Adding any single component (VSS, COS, PCL) improves over standard QLoRA but converges below 90% TS. Combining two components narrows the gap but still falls short by at least 4.3 pp. Only Full ASFT (L7) with all three components crosses 93% TS, confirming their complementary and non-redundant contributions.
-    </p>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Layer</th><th>Name</th><th>AQE</th><th>SCM</th><th>ACM</th>
-            <th>TS (%)</th><th>CER (%) ↓</th><th>Key Weakness</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>0</td><td>Standard QLoRA</td><td>—</td><td>—</td><td>—</td><td>84.10</td><td>20.50</td><td>No self-supervision</td></tr>
-          <tr><td>1</td><td>Vanilla Self-Supervision</td><td>partial</td><td>—</td><td>—</td><td>85.12</td><td>18.43</td><td>No decision logic</td></tr>
-          <tr><td>2</td><td>GRPO-Augmented Layer</td><td>—</td><td>—</td><td>partial</td><td>86.74</td><td>16.88</td><td>Reward variance</td></tr>
-          <tr><td>3</td><td>Consistency-Only</td><td>—</td><td>✓</td><td>—</td><td>87.31</td><td>15.92</td><td>No hard-example emphasis</td></tr>
-          <tr><td>4</td><td>Contrastive Self-Critique</td><td>partial</td><td>✓</td><td>—</td><td>87.83</td><td>15.17</td><td>Batch diversity constraint</td></tr>
-          <tr><td>5</td><td>Hybrid AQE+GRPO</td><td>✓</td><td>—</td><td>partial</td><td>88.94</td><td>13.52</td><td>Dual-scaling instability</td></tr>
-          <tr><td>6</td><td>Progressive Curriculum Layer</td><td>—</td><td>—</td><td>✓</td><td>88.97</td><td>13.47</td><td>Fixed schedule</td></tr>
-          <tr class="ours-row"><td><strong>7</strong></td><td><strong>Full ASFT (Ours)</strong></td><td>✓</td><td>✓</td><td>✓</td><td class="best">93.27</td><td class="best">9.59</td><td>None identified</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="fig-caption">
-      <strong>Table 1.</strong> Supervision layer architecture search. All layers use QLoRA NF4 <em>r</em>&nbsp;=&nbsp;32, 2 epochs, 400 training samples, evaluated on 50 test samples.
-    </p>
+  <h3 class="sub">B. Leave-One-Out Removal</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Configuration</th><th>TS (%)</th><th>&Delta;TS</th><th>CER (%)</th><th>&Delta;CER</th></tr>
+      </thead>
+      <tbody>
+        <tr class="ours"><td><b>Full ASFT</b></td><td class="b">93.27 &plusmn;0.22</td><td>&mdash;</td><td class="b">9.59 &plusmn;0.18</td><td>&mdash;</td></tr>
+        <tr><td>w/o AQE</td><td>89.81 &plusmn;0.41</td><td>&minus;3.46</td><td>13.74 &plusmn;0.36</td><td>+4.15</td></tr>
+        <tr><td>w/o SCM</td><td>90.93 &plusmn;0.35</td><td>&minus;2.34</td><td>12.11 &plusmn;0.31</td><td>+2.52</td></tr>
+        <tr><td>w/o ACM</td><td>91.14 &plusmn;0.33</td><td>&minus;2.13</td><td>11.83 &plusmn;0.27</td><td>+2.24</td></tr>
+        <tr><td>w/o AQE + SCM</td><td>87.31 &plusmn;0.48</td><td>&minus;5.96</td><td>15.92 &plusmn;0.44</td><td>+6.33</td></tr>
+        <tr><td>w/o AQE + ACM</td><td>88.12 &plusmn;0.45</td><td>&minus;5.15</td><td>14.88 &plusmn;0.41</td><td>+5.29</td></tr>
+        <tr><td>w/o SCM + ACM</td><td>87.90 &plusmn;0.39</td><td>&minus;5.37</td><td>16.30 &plusmn;0.36</td><td>+6.71</td></tr>
+        <tr><td>w/o All (= QLoRA)</td><td>84.10 &plusmn;0.44</td><td>&minus;9.17</td><td>20.50 &plusmn;0.42</td><td>+10.91</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <hr class="sec-div" style="margin-top:52px;">
-
-
-  <!-- ══════════════════════════════════════
-       RESULTS
-  ══════════════════════════════════════ -->
-  <div id="results" class="sec">
-    <h2>Results</h2>
-    <p class="body-text">
-      ASFT achieves the best value on every metric across all 50 held-out test samples. Exact match reaches 38% (19/50) compared with 0% for the zero-shot baseline, requiring correct transcription of the full structured output including Title, Author, and Other fields.
-    </p>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Method</th><th>EM (%)</th><th>TS (%)</th>
-            <th>W-F1 (%)</th><th>CER (%) ↓</th><th>WER (%) ↓</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td colspan="6" class="group">Zero-shot baseline</td></tr>
-          <tr><td>Base (Zero-shot)</td><td>0.00</td><td>45.09</td><td>28.74</td><td>72.80</td><td>89.30</td></tr>
-          <tr><td colspan="6" class="group">Fine-tuning baselines</td></tr>
-          <tr><td>Standard SFT</td><td>18.00</td><td>76.40</td><td>72.30</td><td>31.20</td><td>38.60</td></tr>
-          <tr><td>Standard QLoRA</td><td>26.00</td><td>84.10</td><td>79.80</td><td>20.50</td><td>28.40</td></tr>
-          <tr><td colspan="6" class="group">Supervision layer variants</td></tr>
-          <tr><td>VSS (Layer 1)</td><td>28.00</td><td>85.12</td><td>81.03</td><td>18.43</td><td>26.17</td></tr>
-          <tr><td>GRPO-L (Layer 2)</td><td>30.00</td><td>86.74</td><td>82.41</td><td>16.88</td><td>24.03</td></tr>
-          <tr><td>COS (Layer 3)</td><td>30.00</td><td>87.31</td><td>83.19</td><td>15.92</td><td>22.88</td></tr>
-          <tr><td>CSC (Layer 4)</td><td>32.00</td><td>87.83</td><td>83.94</td><td>15.17</td><td>21.74</td></tr>
-          <tr><td>HAG (Layer 5)</td><td>34.00</td><td>88.94</td><td>85.07</td><td>13.52</td><td>19.63</td></tr>
-          <tr><td>PCL (Layer 6)</td><td>34.00</td><td>88.97</td><td>85.11</td><td>13.47</td><td>19.58</td></tr>
-          <tr><td colspan="6" class="group">Proposed method</td></tr>
-          <tr class="ours-row">
-            <td><strong>ASFT (Ours)</strong></td>
-            <td class="best">38.00</td><td class="best">93.27</td>
-            <td class="best">88.18</td><td class="best">9.59</td><td class="best">14.57</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="fig-caption" style="margin-bottom:18px;">
-      <strong>Table 2.</strong> Performance on 50 turbulence-blurred test samples. ASFT outperforms the closest competing layer (PCL) by +4.30 pp TS and −3.88 pp CER. Bold = best result.
-    </p>
-
-    <p class="body-text">
-      Of 50 test samples, 37 (74%) fall in the <strong>Excellent</strong> tier (≥90% TS), 9 (18%) in Good (75–90%), and 4 (8%) in Fair (&lt;75%). The 4 Fair samples correspond to covers with near-complete turbulence occlusion of title text. Per-sample standard deviation: ASFT 8.66% vs. base 11.35%, confirming that fine-tuning reduces prediction variance.
-    </p>
+  <h3 class="sub">F. Data Efficiency</h3>
+  <p class="prose">
+    ASFT with 100 training samples achieves 84.57% TS, matching standard QLoRA with 400 samples &mdash; a <strong>4&times; data efficiency advantage</strong>.
+  </p>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Method</th><th>n<sub>train</sub></th><th>TS (%)</th><th>CER (%)</th><th>EM (%)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td rowspan="4" style="color:#999;font-style:italic;">Standard QLoRA</td><td>50</td><td>71.32 &plusmn;1.24</td><td>37.41 &plusmn;1.18</td><td>6.0</td></tr>
+        <tr><td>100</td><td>76.84 &plusmn;0.88</td><td>30.73 &plusmn;0.81</td><td>14.0</td></tr>
+        <tr><td>200</td><td>80.17 &plusmn;0.62</td><td>25.44 &plusmn;0.58</td><td>20.0</td></tr>
+        <tr><td>400</td><td>84.10 &plusmn;0.44</td><td>20.50 &plusmn;0.42</td><td>26.0</td></tr>
+        <tr class="ours"><td rowspan="4"><b>ASFT (Ours)</b></td><td>50</td><td>79.43 &plusmn;0.91</td><td>28.62 &plusmn;0.84</td><td>16.0</td></tr>
+        <tr class="ours"><td>100</td><td>84.57 &plusmn;0.67</td><td>20.11 &plusmn;0.61</td><td>26.0</td></tr>
+        <tr class="ours"><td>200</td><td>89.81 &plusmn;0.41</td><td>13.74 &plusmn;0.38</td><td>34.0</td></tr>
+        <tr class="ours"><td>400</td><td class="b">93.27 &plusmn;0.22</td><td class="b">9.59 &plusmn;0.18</td><td class="b">38.0</td></tr>
+      </tbody>
+    </table>
   </div>
+  <p class="cap"><b>Table 3.</b> Training data scale ablation. ASFT with 100 samples matches QLoRA with 400 samples, demonstrating a 4&times; data efficiency advantage.</p>
+</div>
 
-  <hr class="sec-div" style="margin-top:52px;">
-
-
-  <!-- ══════════════════════════════════════
-       ABLATION
-  ══════════════════════════════════════ -->
-  <div id="ablation" class="sec">
-    <h2>Ablation Study</h2>
-    <p class="body-text">
-      Six complementary ablation experiments rigorously isolate every design choice in ASFT: (A) incremental component addition, (B) leave-one-out removal, (C) AQE internal design, (D) SCM architecture variants, (E) loss weight sensitivity, and (F) training data scale. All ablations use QLoRA backbone (<em>r</em>&nbsp;=&nbsp;32, NF4) and report mean ± std over 3 seeds.
-    </p>
-
-    <h3 style="font-size:16px; font-weight:600; color:#333; margin:20px 0 10px;">A. Incremental Component Addition</h3>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Configuration</th><th>AQE</th><th>SCM</th><th>ACM</th>
-            <th>TS (%)</th><th>ΔTS</th><th>CER (%)</th><th>EM (%)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Base (zero-shot)</td><td>—</td><td>—</td><td>—</td><td>45.09 ±0.00</td><td>—</td><td>72.80</td><td>0.0</td></tr>
-          <tr><td>+Std SFT</td><td>—</td><td>—</td><td>—</td><td>76.40 ±0.31</td><td>+31.31</td><td>31.20</td><td>18.0</td></tr>
-          <tr><td>+Std QLoRA</td><td>—</td><td>—</td><td>—</td><td>84.10 ±0.44</td><td>+7.70</td><td>20.50</td><td>26.0</td></tr>
-          <tr><td>+AQE only</td><td>✓</td><td>—</td><td>—</td><td>87.90 ±0.38</td><td>+3.80</td><td>16.30</td><td>30.0</td></tr>
-          <tr><td>+AQE+SCM</td><td>✓</td><td>✓</td><td>—</td><td>90.50 ±0.29</td><td>+2.60</td><td>12.80</td><td>34.0</td></tr>
-          <tr class="ours-row"><td><strong>Full ASFT</strong></td><td>✓</td><td>✓</td><td>✓</td><td class="best">93.27 ±0.22</td><td class="best">+2.77</td><td class="best">9.59</td><td class="best">38.0</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h3 style="font-size:16px; font-weight:600; color:#333; margin:24px 0 10px;">B. Leave-One-Out Removal</h3>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Configuration</th><th>TS (%)</th><th>ΔTS</th><th>CER (%)</th><th>ΔCER</th></tr>
-        </thead>
-        <tbody>
-          <tr class="ours-row"><td><strong>Full ASFT</strong></td><td class="best">93.27 ±0.22</td><td>—</td><td class="best">9.59 ±0.18</td><td>—</td></tr>
-          <tr><td>ASFT w/o AQE</td><td>89.81 ±0.41</td><td>−3.46</td><td>13.74 ±0.36</td><td>+4.15</td></tr>
-          <tr><td>ASFT w/o SCM</td><td>90.93 ±0.35</td><td>−2.34</td><td>12.11 ±0.31</td><td>+2.52</td></tr>
-          <tr><td>ASFT w/o ACM</td><td>91.14 ±0.33</td><td>−2.13</td><td>11.83 ±0.27</td><td>+2.24</td></tr>
-          <tr><td>w/o AQE + SCM</td><td>87.31 ±0.48</td><td>−5.96</td><td>15.92 ±0.44</td><td>+6.33</td></tr>
-          <tr><td>w/o AQE + ACM</td><td>88.12 ±0.45</td><td>−5.15</td><td>14.88 ±0.41</td><td>+5.29</td></tr>
-          <tr><td>w/o SCM + ACM</td><td>87.90 ±0.39</td><td>−5.37</td><td>16.30 ±0.36</td><td>+6.71</td></tr>
-          <tr><td>w/o All (= QLoRA)</td><td>84.10 ±0.44</td><td>−9.17</td><td>20.50 ±0.42</td><td>+10.91</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h3 style="font-size:16px; font-weight:600; color:#333; margin:24px 0 10px;">F. Data Efficiency</h3>
-    <p class="body-text">
-      ASFT with only 100 training samples achieves 84.57% TS, matching standard QLoRA with 400 samples (84.10%) — a <strong>4× data efficiency advantage</strong>. The improvement remains consistent across all data sizes (+7.7–9.6 pp TS).
-    </p>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Method</th><th>n<sub>train</sub></th><th>TS (%)</th><th>CER (%)</th><th>EM (%)</th></tr>
-        </thead>
-        <tbody>
-          <tr><td rowspan="4" style="color:#888; font-style:italic;">Standard QLoRA</td><td>50</td><td>71.32 ±1.24</td><td>37.41 ±1.18</td><td>6.0</td></tr>
-          <tr><td>100</td><td>76.84 ±0.88</td><td>30.73 ±0.81</td><td>14.0</td></tr>
-          <tr><td>200</td><td>80.17 ±0.62</td><td>25.44 ±0.58</td><td>20.0</td></tr>
-          <tr><td>400</td><td>84.10 ±0.44</td><td>20.50 ±0.42</td><td>26.0</td></tr>
-          <tr class="ours-row"><td rowspan="4"><strong>ASFT (Ours)</strong></td><td>50</td><td>79.43 ±0.91</td><td>28.62 ±0.84</td><td>16.0</td></tr>
-          <tr class="ours-row"><td>100</td><td>84.57 ±0.67</td><td>20.11 ±0.61</td><td>26.0</td></tr>
-          <tr class="ours-row"><td>200</td><td>89.81 ±0.41</td><td>13.74 ±0.38</td><td>34.0</td></tr>
-          <tr class="ours-row"><td>400</td><td class="best">93.27 ±0.22</td><td class="best">9.59 ±0.18</td><td class="best">38.0</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="fig-caption">
-      <strong>Table 3.</strong> Training data scale ablation. ASFT with 100 samples matches QLoRA with 400 samples, demonstrating a 4× data efficiency advantage.
-    </p>
-  </div>
-
-  <hr class="sec-div" style="margin-top:52px;">
+<hr class="div" style="margin-top:50px;">
 
 
-  <!-- ══════════════════════════════════════
-       CITATION
-  ══════════════════════════════════════ -->
-  <div id="citation" class="sec">
-    <h2>Citation</h2>
-    <p class="body-text" style="font-size:14px; color:#555;">If you find this work useful, please cite:</p>
-    <div class="bibtex-wrap">
-      <button class="copy-btn" onclick="copyBib()">Copy</button>
-      <pre id="bib-text">@article{ayrin2025asft,
+<!-- ════════════════════════════════
+     CITATION
+════════════════════════════════ -->
+<div id="citation" class="sec">
+  <h2>Citation</h2>
+  <p class="prose" style="font-size:14px; color:#555;">If you find this work useful, please cite:</p>
+  <div class="bib-wrap">
+    <button class="copy-btn" onclick="copyBib()">Copy</button>
+    <pre id="bib-text">@article{ayrin2025asft,
   title   = {Autonomous Fine-Tuning of Vision-Language Models
              for Turbulence-Degraded Text Recognition},
   author  = {Ayrin, Fateha Jannata and
@@ -841,48 +784,41 @@ hr.sec-div { border: none; border-top: 1px solid #e8e8e8; margin: 0; }
   year    = {2025},
   url     = {https://github.com/ayrin21/asft}
 }</pre>
-    </div>
   </div>
+</div>
 
 </div><!-- /page -->
 
 <footer>
-  <p>
-    Autonomous Fine-Tuning of VLMs for Turbulence-Degraded OCR &nbsp;·&nbsp;
-    University of Chittagong, Bangladesh &nbsp;·&nbsp; 2025
-  </p>
+  <p>Autonomous Fine-Tuning of VLMs for Turbulence-Degraded OCR &nbsp;&middot;&nbsp; University of Chittagong, Bangladesh &nbsp;&middot;&nbsp; 2025</p>
   <p style="margin-top:8px;">
-    <a href="https://github.com/ayrin21/asft">Code</a> &nbsp;·&nbsp;
-    <a href="https://huggingface.co/spaces/Rafi123/qwen3b-autonomous-demo">Demo</a> &nbsp;·&nbsp;
+    <a href="https://github.com/ayrin21/asft">Code</a> &nbsp;&middot;&nbsp;
+    <a href="https://huggingface.co/spaces/Rafi123/qwen3b-autonomous-demo">Demo</a> &nbsp;&middot;&nbsp;
     <a href="https://www.kaggle.com/datasets/fatehajannatayrin/turbulence-blur-text-extraction-book-images">Dataset</a>
   </p>
 </footer>
 
 <script>
-// Video: show placeholder if file missing
-const vid = document.getElementById('demo-video');
-const fallback = document.getElementById('video-fallback');
-if (vid) {
-  vid.addEventListener('error', () => {
+var vid = document.getElementById('demo-video');
+var fallback = document.getElementById('video-fallback');
+if (vid && fallback) {
+  vid.addEventListener('error', function() {
     vid.style.display = 'none';
     fallback.style.display = 'flex';
   });
-  // if no src loads at all
-  setTimeout(() => {
+  setTimeout(function() {
     if (vid.readyState === 0) {
       vid.style.display = 'none';
       fallback.style.display = 'flex';
     }
   }, 2000);
 }
-
-// BibTeX copy
 function copyBib() {
-  const text = document.getElementById('bib-text').innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.querySelector('.copy-btn');
+  var text = document.getElementById('bib-text').innerText;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.querySelector('.copy-btn');
     btn.textContent = 'Copied!';
-    setTimeout(() => btn.textContent = 'Copy', 2000);
+    setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
   });
 }
 </script>
