@@ -2,7 +2,6 @@
 
 [![JMLR 2025](https://img.shields.io/badge/JMLR-2025-blue.svg)](https://jmlr.org)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9+-green.svg)](https://www.python.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![HuggingFace Demo](https://img.shields.io/badge/🤗-Demo-orange.svg)](https://huggingface.co/spaces/Rafi123/qwen3b-autonomous-demo)
 [![Dataset](https://img.shields.io/badge/Kaggle-Dataset-20BEFF.svg)](https://www.kaggle.com/datasets/fatehajannatayrin/turbulence-blur-text-extraction-book-images)
 
@@ -180,24 +179,7 @@ Try the live demo on HuggingFace Spaces — upload any turbulence-degraded book 
 
 ---
 
-## Citation
 
-If you find this work useful, please cite:
-
-```bibtex
-@article{ayrin2025asft,
-  title   = {Autonomous Fine-Tuning of Vision-Language Models
-             for Turbulence-Degraded Text Recognition},
-  author  = {Ayrin, Fateha Jannata and
-             Azim, Muhammad Anwarul and
-             Islam, Mohammad Khairul},
-  journal = {Journal of Machine Learning Research},
-  year    = {2025},
-  url     = {https://github.com/ayrin21/asft}
-}
-```
-
----
 
 ## Contact
 
@@ -208,8 +190,4 @@ If you find this work useful, please cite:
 Department of Computer Science and Engineering  
 University of Chittagong, Chittagong 4331, Bangladesh
 
----
 
-## License
-
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
